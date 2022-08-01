@@ -1,6 +1,35 @@
+import { useState } from "react";
 import "./styles.css";
+import "./styleCart.css";
 
 export const DivMain = ({ products }) => {
+  const [cartProducts, setCartProducts] = useState([]);
+
+  function addProduct(product) {
+    return setCartProducts([...cartProducts, product]);
+  }
+
+  function removeToCart(product) {
+    const newCardProducts = cartProducts.filter(
+      (produto) => produto.name !== product.name
+    );
+    setCartProducts(newCardProducts);
+  }
+
+  function removeAllCartItens() {
+    const emptyList = cartProducts.filter(
+      (produto) => produto.name === "Nao te quero aqui"
+    );
+    setCartProducts(emptyList);
+  }
+
+  function totalValue() {
+    const valor = cartProducts.reduce((acc, produto) => {
+      return acc + parseInt(produto.price);
+    }, 0);
+    return valor;
+  }
+
   return (
     <div className="divMain">
       <ul className="ulProducts">
@@ -17,7 +46,7 @@ export const DivMain = ({ products }) => {
                 <span>
                   R$ <p>{produto.price}</p>
                 </span>
-                <button>Adicionar</button>
+                <button onClick={() => addProduct(produto)}>Adicionar</button>
               </div>
             </li>
           );
@@ -25,12 +54,41 @@ export const DivMain = ({ products }) => {
       </ul>
       <div className="divCart">
         <p>Carrinho de Compras</p>
-        <ul className="ulCart"></ul>
+        <ul className="ulCart">
+          {cartProducts.map((produto) => {
+            return (
+              <li key={produto.id} className="liCart">
+                <div className="divImg">
+                  <img src={produto.img} alt={produto.name} />
+                </div>
+
+                <div className="divTextProduct">
+                  <h3>{produto.name}</h3>
+                  <p>{produto.category}</p>
+                </div>
+                <button
+                  className="button"
+                  onClick={() => {
+                    removeToCart(produto);
+                  }}
+                >
+                  Remover
+                </button>
+              </li>
+            );
+          })}
+        </ul>
         <div className="DivPrice">
           <p>
-            Total <span>R$ {}</span>
+            Total <span>R$ {totalValue()}</span>
           </p>
-          <button>Remover Todos</button>
+          <button
+            onClick={() => {
+              removeAllCartItens();
+            }}
+          >
+            Remover Todos
+          </button>
         </div>
       </div>
     </div>
