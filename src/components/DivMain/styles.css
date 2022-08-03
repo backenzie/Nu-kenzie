@@ -1,5 +1,6 @@
 .divMain {
   display: flex;
+  position: relative;
 }
 .ulProducts {
   display: flex;
@@ -97,11 +98,13 @@
   color: #f5f5f5;
 }
 .divCart {
+  display: flex;
+  flex-direction: column;
+
   width: 20rem;
   height: 33rem;
   margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
+
   background-color: #f5f5f5;
 }
 .divCart > p {

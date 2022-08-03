@@ -5,8 +5,13 @@ import "./styleCart.css";
 export const DivMain = ({ products }) => {
   const [cartProducts, setCartProducts] = useState([]);
 
+  console.log(cartProducts);
+
   function addProduct(product) {
-    return setCartProducts([...cartProducts, product]);
+    const result = cartProducts.filter(
+      (produto) => product.name !== produto.name
+    );
+    return setCartProducts([...result, product]);
   }
 
   function removeToCart(product) {
@@ -55,9 +60,9 @@ export const DivMain = ({ products }) => {
       <div className="divCart">
         <p>Carrinho de Compras</p>
         <ul className="ulCart">
-          {cartProducts.map((produto) => {
+          {cartProducts.map((produto, i) => {
             return (
-              <li key={produto.id} className="liCart">
+              <li key={i} className="liCart">
                 <div className="divImg">
                   <img src={produto.img} alt={produto.name} />
                 </div>
